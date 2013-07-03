@@ -1,0 +1,3 @@
+SkeletonApplication
+===================
+Base zend application
