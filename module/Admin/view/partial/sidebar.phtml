@@ -1,0 +1,39 @@
+<!--look:http://stackoverflow.com/questions/14884572/zend-framework-2-navigation-menu-twitter-bootstrap-integration-->
+<ul class="nav nav-list">
+    <?php $count = 0 ?>
+    <?php foreach ($this->container as $page): ?>
+        <?php /* @var $page Zend\Navigation\Page\Mvc */ ?>
+        <?php // when using partials we need to manually check for ACL conditions ?>
+        <?php if( ! $page->isVisible() || !$this->navigation()->accept($page)) continue; ?>
+        <?php $hasChildren = $page->hasPages() ?>
+        <?php if( ! $hasChildren): ?>
+		<li>
+            <a class="nav-header" href="<?php echo $page->getHref() ?>">
+				<i class="<?php echo $page->icon ?>"></i>
+                <span><?php echo $this->translate($page->getLabel()) ?></span>
+            </a>
+		</li>
+        <?php else: ?>
+		<li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#page_<?php echo $count ?>">
+				<i class="<?php echo $page->icon ?>"></i>
+                <span><?php echo $this->translate($page->getLabel()) ?></span>
+				<b class="arrow icon-angle-down"></b>
+            </a>
+            <ul class="submenu" id="page_<?php echo $count ?>">
+            <?php foreach($page->getPages() as $child): ?>
+                <?php // when using partials we need to manually check for ACL conditions ?>
+                <?php if( ! $child->isVisible() || !$this->navigation()->accept($child)) continue; ?>
+                <li>
+                    <a href="<?php echo $child->getHref() ?>">
+						<i class="icon-double-angle-right"></i>
+                        <?php echo $this->translate($child->getLabel()) ?>
+                    </a>
+                </li>
+            <?php endforeach ?>
+            </ul>
+		</li>
+        <?php endif ?>
+        <?php $count++ ?>
+    <?php endforeach ?>
+</ul>

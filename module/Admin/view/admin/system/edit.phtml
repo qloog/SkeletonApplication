@@ -1,0 +1,62 @@
+<?php
+$title = 'edit system option';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+$form = $this->form;
+//$form->setAttribute('action', $this->url('admin', array('controller' => 'system', 'action' => 'add')));
+$form->setAttribute('action', '/admin/system/edit/3');
+$form->setAttribute('class', 'form-horizontal');
+$form->prepare();
+
+$hidden = $form->get('id');
+$site_url = $form->get('site_url');
+$site_name = $form->get('site_name');
+$submit = $form->get('submit');
+//referernce:http://stackoverflow.com/questions/15753359/zf2-form-validation-zfcadmin-and-bjyauthorize-related
+?>
+<div class="row-fluid">
+	<!--PAGE CONTENT BEGINS HERE-->
+	<?php if (isset($this->messages) && count($this->messages) > 0 ): ?>
+	<?php foreach ($this->messages as $msg): ?>
+	<div class="alert alert-block alert-<?php echo $this->escapeHtmlAttr($msg['type']); ?>">
+		<button type="button" class="close" data-dismiss="alert">
+			<i class="icon-remove"></i>
+		</button>
+		<?php if (isset($msg['icon'])) echo '<i class="'.$this->escapeHtmlAttr($msg['icon']).'"></i>&nbsp;'; ?><?php echo $this->escapeHtml($msg['message']); ?>
+	</div>
+	<?php endforeach; ?>
+	<?php endif; ?>
+
+	<?php
+	echo $this->form()->openTag($form);
+	//echo $this->formHidden($form->get('id'));
+	?>
+	<?php echo $this->formInput($hidden); ?>
+	<div class="control-group">
+		<?php
+			echo $this->formLabel()->openTag($site_url) . $site_url->getLabel() . $this->formLabel()->closeTag();
+		?>
+		<div class="controls">
+		<?php echo $this->formInput($site_url); ?>
+		</div>
+	</div>
+	<div class="control-group">
+		<?php
+			echo $this->formLabel()->openTag($site_name) . $site_name->getLabel() . $this->formLabel()->closeTag();
+		?>
+		<div class="controls">
+		<?php echo $this->formInput($site_name); ?>
+		</div>
+	</div>
+	<div class="form-actions">
+		<?php echo $this->formButton($submit); ?>
+	</div>
+	<?php
+	echo $this->form()->closeTag();
+	?>
+	<div class="hr"></div>
+</div>
+
